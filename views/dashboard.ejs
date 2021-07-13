@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>MS-Teams</title>
+  </head>
+  <body>
+  
+  <div class="content">
+    <div class="container">
+        <div class="header">
+        <h4><img style="height : 60px; width:60px;align-content:left" src="/images/logo.svg" class="logo"><a href="/" style="margin-bottom: 0;color:white;text-decoration: none;">Microsoft Teams</a></h4>
+        <p class="lead mb-3">Welcome <%= user.name %>  </p>
+        <a href="/users/logout"><button  class="btn btn-danger">Logout</button></a>
+        </div> 
+        <div class="row">
+            <div class="col-md-6 contents">
+                <div class="card card-body text-center ">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="9em" height="9em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);width:auto" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z" fill="#333;"/></svg>
+                    <a  href="/create_room"><button class="btn btn-block btn-primary">Create Room</button></a>
+                </div>
+            </div>
+            <div class="col-md-6 m-auto"  >
+                <div class="card card-body text-center" style="background: #ffffffba;">
+                    <h1><i class="fas fa-chalkboard-teacher fa-3x"></i></h1>
+                    <button class="btn btn-block btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="margin-top:18px"> Join Room</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Enter Room ID:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <form action="/users/login" method="POST">
+                <div class="form-group">
+                <label for="room_id">Room ID:</label>
+                <input
+                    type="text"
+                    id="room_id"
+                    name="room_id"
+                    class="form-control"
+                    placeholder="Enter Here"
+                />
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnJoinRoom">Connect</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <p id="user_name" style="display:none"> <%= user.name %></p>
+    <script>
+    localStorage.clear()
+    var user_name = document.getElementById("user_name").innerText
+    localStorage.setItem("user_id", user_name.trim());
+
+    document.getElementById("btnJoinRoom").addEventListener("click",()=>{   
+        const JoinRoomID =document.getElementById('room_id').value
+        window.location.href=`/chatroom/${JoinRoomID}`  });
+
+    </script>
+  
+  
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

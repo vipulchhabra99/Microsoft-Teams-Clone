@@ -1,0 +1,236 @@
+
+.footer{
+  position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #333333;
+    color: white;
+    padding: 1%;
+}
+.header{
+ position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #333333;
+    color: white;
+    padding: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#welcome{
+  margin-top:15% !important;
+}
+#getStarted{
+    background: #ffffffba;
+    box-shadow: -2px 7px 3px grey;
+}
+      #video-grid {
+        display: grid;
+        /* grid-template-columns: 1fr 1fr; */
+          grid-template-columns: repeat(auto-fill, 300px);
+        grid-auto-rows: 300px;
+      }
+      
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border:1px solid grey;
+      }
+      @media only screen and (max-width:650px){
+         #welcomeText{
+          font-size: 8vw !important;
+         }
+         #video-grid{
+            grid-template-columns: 1fr 1fr;
+            grid-auto-rows: max-content;
+         }
+         video{
+           height: auto;
+         }
+         #myCam{
+           width:144px !important;
+         }
+         #divHeader{
+           flex-direction: column !important;
+         }
+         .chatCollapse{
+           top:1% !important;
+         }
+      }
+     
+ #widgetBar{
+     position: absolute;
+    bottom: 8%;
+    left: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+      
+#widget-container{
+     display: grid;
+    grid-column-gap: 20px;
+    z-index: 2;
+    min-width: 271px;
+    text-align: center;
+    border: 7px solid grey;
+    background: #d1dff57d;
+    border-radius: 4px;
+    grid-auto-flow: column;
+    transition: all 0.2s;
+
+    
+}
+#widget-container div{
+    padding:10px;
+}
+#widget-container div :hover{
+   cursor:pointer;
+   transition: 0.1s ;
+   transform: scale(1.2)
+  
+}
+#widget-container i{
+  font-size:2vw
+}
+#myCam{
+    position: absolute;
+    width: 200px;
+    bottom: 1%;
+    left: 1%;
+    display: flex;
+    flex-direction: column-reverse;
+    box-shadow: 1px 1px;
+    box-shadow: 4px 4px 4px black;
+    z-index: 1;
+}
+#nameLabel{
+    text-align: center;
+    background-color:rgb(51, 27, 160);
+    color:white;
+    margin:0;
+}
+.muteButton{
+    display: flex;
+    flex-direction: column;
+}
+.videoButton{
+    display: flex;
+    flex-direction: column;
+}
+
+.chatCollapse{
+  display:flex;
+  flex-direction:column;
+}
+
+/* video::-webkit-media-controls {
+  display: none;
+} */
+video::-webkit-media-controls-play-button { display: none;}
+
+video::-webkit-media-controls-volume-slider { display: none;}
+
+video::-webkit-media-controls-mute-button { display: none;}
+
+video::-webkit-media-controls-timeline { display: none;}
+
+video::-webkit-media-controls-current-time-display { display: none;}
+
+
+video::-webkit-media-controls-fullscreen-button {
+   
+}
+
+#btnRecord{
+  display: none;
+}
+#download{
+  display: none;
+}
+
+
+
+#chat{
+      position: absolute;
+    right: 0%;
+    border: 6px solid #585875;
+    border-radius: 4px;
+    height: 99.5%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 3;
+    color:white;
+    background: #233158;
+    width:300px;
+    margin-top: 0.1%;
+}
+body{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    overflow:hidden;
+    background-image: url(images/og.jpg);
+    background-size: cover;
+  }
+  .vjs-tech {
+  pointer-events: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.Collapse{
+      width: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    position: fixed !important;
+}
+.chatCollapse:hover{
+  cursor:pointer
+}
+.chatClose:hover{
+  cursor:pointer
+}
+#messageBoxes > *:nth-child(1){
+  flex: 1 1 70%;
+
+}
+#messageBoxes > *:nth-child(1){
+  flex: 1 1 30%;
+  
+}
+#messageBoxes > *{
+  outline:none;
+}
+.showToast{
+   transition:visibility 0.5s linear,opacity 0.5s linear;
+   visibility:visible !important;
+    opacity:1 !important;
+}

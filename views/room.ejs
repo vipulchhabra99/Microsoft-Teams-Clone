@@ -1,0 +1,171 @@
+
+<script>
+  const ROOM_ID = "<%= roomId %>"
+  const data= "<%= user %>"
+</script>
+<!-- <div id="divHeader" style="display: flex;justify-content: space-around;align-items: baseline;">
+  <p id="roomIdContainer" class="lead mb-3" style='    border: 2px solid #6f4545;
+    padding: 6px;
+    background: antiquewhite;
+    border-radius: 4px;' data-toggle="tooltip" data-placement="top" title="Copy To Clipboard"> <b style='font-weight: 800;'>RoomID:</b> <label style='display: inline;
+    margin-bottom: 0;'><%= roomId %></label> </p>
+  <!-- <a href="/dashboard" class="btn btn-danger">Leave Room</a> -->
+</div>
+<div>
+  <div id="video-grid" >
+
+  </div>
+  <!-- <button id="screenshare"></button> -->
+  <!-- <h1 class="chatCollapse" style="
+    position: absolute;
+    right: 0%;
+    transition: 0.5s;
+    padding: 5px;
+    background: #233158;
+    color: white;
+    border-radius: 3px;
+    top:2%
+"><i class="fas fa-users"></i></h1> -->
+
+  <div id="chat">
+    <h4 style="
+    position: absolute;
+    top: 1%;
+    left: 0%;
+    width: 100%;
+    /* background: darkred; */
+    text-align: center;
+"> <i class="fas fa-users"></i> Chat <label style="float:right" class="chatClose">X </h4>
+  <div id="messages" style='overflow: auto;
+    height: 87%;padding: 3%;'></div>
+  <div id="messageBoxes" style="
+    /* width: 100%; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    /* justify-content: center; */
+    /* align-items: baseline; */
+"><input type="text" id="myMessage" style="/* width: 75%; */padding: 4px; font-family: 'Roboto', sans-serif;" placeholder="Message Here"><button id="send" style="
+    color: #fff;
+    background-color: #35aedc;
+    border-color: #3578dc;
+    /* width: 62px; */
+    padding: 4px;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+">Send <i class="fab fa-telegram-plane"></i></button></div>
+  </div>
+  <!-- <button id="btnScreen">Screenshare</button> -->
+  <div>
+    <div id="myCam">
+      <p id="nameLabel" hidden></p>
+       <video id="streamView" disablePictureInPicture></video>
+      
+    </div>
+</div>
+</div>
+<div id="widgetBar">
+  <div id="widget-container">
+     <div class="" ><a onclick="redirect_chat()" style="display: flex; flex-direction: column;color: red;text-decoration: none;"> <i class="fas fa-phone fa-3x" style="transform: rotate(225deg);"></i>Leave Room</a></div>
+  <div class="muteButton" onclick="muteUnmute()"><i class="fas fa-microphone fa-3x"></i><span>Mute</span></div>
+  <div class="videoButton" onclick="playStop()" > <i class="fas fa-video fa-3x"></i><span>Stop Video</span></div>
+  <div class="chatCollapse"><i class="fas fa-comment fa-3x"></i><span>Chat</span></div>
+  <div class="videoButton" id="btnScreen" > <i class="fas fa-desktop fa-3x" ></i><span>Share Screen</span></div>
+  <div class="videoButton startRecord" id="btnRecord" > <i class="fas fa-file-video fa-3x" ></i><span>Record</span></div>
+    <div class="videoButton " id="download" > <i class="fas fa-file-video fa-3x" ></i><span>Download</span></div>
+  </div>
+</div>
+<div id='toastDiv' style="
+    position: fixed;
+    left: 0%;
+    padding-left: 1%;
+    z-index: 999;
+    background: #a52a2afc;
+    /* width: 109px; */
+    text-align: center;
+    /* height: 50px; */
+    line-height: 40px;
+    border-radius: 100px;
+    color: floralwhite;
+    font-size: 16px;
+    padding-right: 1%;
+    margin: 1%;
+    transition:visibility 0.5s linear,opacity 0.5s linear;
+    top:1%;
+    visibility:hidden;
+    opacity:0;   
+"><label>Sample Label Here</label></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.3.2/peerjs.min.js" integrity="sha512-4wTQ8feow93K3qVGVXUGLULDB9eAULiG+xdbaQH8tYZlXxYv9ij+evblXD0EOqmGWT8NBTd1vQGsURvrQzmKeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>   
+<script  src="/socket.io/socket.io.js" ></script>
+<script src="/room.js"  ></script>
+<script src="/recorder.js"></script>
+<script>
+  
+  // let roomIdDiv =document.getElementById("roomIdContainer")
+  // roomIdDiv.addEventListener('click',()=>{
+  //   let clipRoomId=roomIdDiv.querySelector('label').textContent
+  //   // alert(clipRoomId)
+  // })
+  $(window).on('beforeunload', function(){ socket.close(); }); 
+  window.onload = (event) => {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", `/fetchChat/${ROOM_ID}`, false ); // false for synchronous request
+        xmlHttp.send( null );
+        var res = JSON.parse(xmlHttp.responseText);
+        let divi = document.querySelector("#messages")
+        for(var i = 0; i< res.length;i++){
+            if (res[i]['name'] == localStorage.getItem("user_id")) {
+                divi.innerHTML += `<div style='text-align:right;font-weight:600'><b style='font-weight:100'>${res[i]['name']}</b>: ${res[i]['message']}</div>`
+            } else {
+                divi.innerHTML += `<div  style='font-weight:600'><b  style='font-weight:100'>${res[i]['name']}</b>: ${res[i]['message']}</div>`
+            }
+        }
+        scrollToBottom();
+  };
+
+  function redirect_chat(){
+    window.location.href=`/chatroom/${ROOM_ID}`;
+  }
+
+  function setUnmuteButton (){
+    const html = `<i class="unmute fas fa-microphone-slash fa-3x" style="color:red !important"></i>
+    <span>Unmute</span>`
+    document.querySelector('.muteButton').innerHTML = html;
+  }
+
+  function setStopVideo() {
+    const html = `<i class="fas fa-video fa-3x "></i><span>Stop Video</span>`
+    document.querySelector('.videoButton').innerHTML = html;
+  }
+
+  function setPlayVideo() {
+    const html = `
+    <i class="stop fas fa-video-slash fa-3x" style="color:red !important"></i><span>Start Video</span>`
+    document.querySelector('.videoButton').innerHTML = html;
+  }
+  function setMuteButton(){
+    const html = `<i class="fas fa-microphone fa-3x" ></i><span>Mute</span>`
+    document.querySelector('.muteButton').innerHTML = html;
+  }
+
+  const chatColl = document.querySelector('.chatCollapse')
+  chatColl.addEventListener('click', () => {
+      let chatDiv = document.getElementById('chat')
+      if (chatDiv.classList.contains('Collapse')) {
+          chatDiv.classList.remove('Collapse')
+      } else {
+          chatDiv.classList.add('Collapse')
+      }
+  })
+
+  const chatClose = document.querySelector('.chatClose')
+  chatClose.addEventListener('click', () => {
+      let chatDiv = document.getElementById('chat')
+      if (chatDiv.classList.contains('Collapse')) {
+          chatDiv.classList.remove('Collapse')
+      } else {
+          chatDiv.classList.add('Collapse')
+      }
+  })
+
+</script>
