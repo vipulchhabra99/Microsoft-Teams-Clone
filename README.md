@@ -62,4 +62,4 @@ It uses [socket.io](https://socket.io/) an open source library that implements w
 
 ## Demo of the application
 
-[Click Here](https://microsoft-teams-clone-nodejs.herokuapp.com/) to test out the application
+[Click Here](https://microsoft-teams-clone-web.herokuapp.com/) to test out the application
